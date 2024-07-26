@@ -19,6 +19,12 @@ window.addEventListener("load", function () {
 
 async function loadPosts() {
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+
+  // cache the response right from the fetch
+  const clonedResponse = response.clone();
+  const cache = await caches.open("pwa_demo_cache");
+  cache.put("https://jsonplaceholder.typicode.com/posts", clonedResponse);
+
   const posts = await response.json();
 
   const listContainer = document.getElementById("list");
